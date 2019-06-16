@@ -1,0 +1,36 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Text;
+using System.Threading.Tasks;
+using System.Speech.Recognition;
+ 
+namespace VoiceTo
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+
+            SpeechRecognitionEngine recognizer = new SpeechRecognitionEngine(new System.Globalization.CultureInfo("en-US"));
+            recognizer.SetInputToDefaultAudioDevice();
+            recognizer.LoadGrammar(new DictationGrammar());
+            recognizer.RecognizeAsync(RecognizeMode.Multiple);
+            recognizer.SpeechRecognized += new EventHandler<SpeechRecognizedEventArgs>(recognizer_Recognized);
+            while (true)
+            {
+                Console.ReadKey();
+            }
+        }
+
+        private static void recognizer_Recognized(object sender, SpeechRecognizedEventArgs e)
+        {
+            //throw new NotImplementedException();
+            Console.WriteLine(e.Result.Text);
+           //
+            //TextWriter("test.txt");
+        }
+    }
+}
